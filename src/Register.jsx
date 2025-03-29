@@ -1,14 +1,25 @@
 
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from './AuthProvider/AuthProvider';
+import { Link } from 'react-router-dom';
+
 
 const Register = () => {
-
+  const {registerUser} = useContext(AuthContext);
   const handleRegister = (e) =>{
       e.preventDefault();
       const name = e.target.name.value;
       const email = e.target.email.value;
       const password = e.target.password.value;
       console.log(name, email, password)
+      // create user
+      registerUser(email, password)
+        .then(result =>{
+          console.log(result.user)
+        })
+        .catch(error =>{
+          console.log(error.message);
+        })
   }
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -29,6 +40,9 @@ const Register = () => {
               <div><a className="link link-hover">Forgot password?</a></div>
               <button className="btn btn-neutral mt-4">Login</button>
             </form>
+            {
+              <p className="font-medium">Already Have an account? Please <Link to="/login">Login!</Link> </p>
+            }
           </div>
         </div>
       </div>
