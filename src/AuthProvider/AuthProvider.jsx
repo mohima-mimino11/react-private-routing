@@ -5,6 +5,7 @@ import { auth } from "../../base/firebase.init";
 export const AuthContext = createContext(null);
 const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const registerUser = (email, password) =>{
     return createUserWithEmailAndPassword(auth, email, password)
   }
@@ -22,6 +23,7 @@ const AuthProvider = ({children}) => {
       console.log('Current user', currentUser)
       if(currentUser){
         setUser(currentUser)
+        setLoading(false)
       }else{
         setUser(null)
       }
@@ -33,11 +35,11 @@ const AuthProvider = ({children}) => {
   },[])
 
   const authInfo = {
-    name: 'nodi er sagor',
     registerUser,
     signInUser,
     user,
-    signOutUser
+    signOutUser,
+    loading
   }
   return (
     <AuthContext.Provider value={authInfo}>
